@@ -1,6 +1,6 @@
 # Islands Client State
 
-Creates a `state` struct for clients of the _Game of Islands_.
+Creates a client `state` struct for the _Game of Islands_.
 
 ## Installation
 

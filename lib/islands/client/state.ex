@@ -7,7 +7,7 @@ defmodule Islands.Client.State do
   @course_ref Application.get_env(@app, :course_ref)
 
   @moduledoc """
-  Creates a `state` struct for clients of the _Game of Islands_.
+  Creates a client `state` struct for the _Game of Islands_.
   \n##### #{@course_ref}
   """
 

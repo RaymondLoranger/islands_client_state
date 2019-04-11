@@ -4,7 +4,7 @@ defmodule Islands.Client.State.MixProject do
   def project do
     [
       app: :islands_client_state,
-      version: "0.1.1",
+      version: "0.1.2",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       name: "Islands Client State",
@@ -22,7 +22,7 @@ defmodule Islands.Client.State.MixProject do
 
   defp description do
     """
-    Creates a state struct for clients of the Game of Islands.
+    Creates a client state struct for the Game of Islands.
     """
   end
 
@@ -49,10 +49,10 @@ defmodule Islands.Client.State.MixProject do
       {:mix_tasks,
        github: "RaymondLoranger/mix_tasks", only: :dev, runtime: false},
       {:persist_config, "~> 0.1"},
+      {:islands_engine, "~> 0.2"},
       {:islands_player, "~> 0.1"},
       {:islands_player_id, "~> 0.1"},
       {:islands_tally, "~> 0.1"},
-      {:islands_engine, "~> 0.2"},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5", only: :dev, runtime: false}
