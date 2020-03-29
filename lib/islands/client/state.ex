@@ -12,7 +12,7 @@ defmodule Islands.Client.State do
   """
 
   alias __MODULE__
-  alias Islands.{Engine, Player, PlayerID, Tally}
+  alias Islands.{Player, PlayerID, Tally}
 
   @default_options [mode: :manual, pause: 0]
   @genders [:f, :m]
@@ -27,8 +27,7 @@ defmodule Islands.Client.State do
     :player_id,
     :mode,
     :pause,
-    :move,
-    :tally
+    :move
   ]
   defstruct [
     :game_name,
@@ -49,7 +48,7 @@ defmodule Islands.Client.State do
           mode: :manual | :auto,
           pause: 0..10_000,
           move: [String.codepoint() | non_neg_integer | String.t()],
-          tally: Tally.t()
+          tally: Tally.t() | nil
         }
 
   @spec new(String.t(), PlayerID.t(), String.t(), atom, Keyword.t()) :: t
@@ -67,8 +66,7 @@ defmodule Islands.Client.State do
       player_id: player_id,
       mode: mode,
       pause: pause,
-      move: [],
-      tally: Engine.tally(game_name, player_id)
+      move: []
     }
   end
 
