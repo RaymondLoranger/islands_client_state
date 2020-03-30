@@ -12,9 +12,9 @@ defmodule Islands.Client.State do
   """
 
   alias __MODULE__
-  alias Islands.{Player, PlayerID, Tally}
+  alias Islands.{Engine, Player, PlayerID, Tally}
 
-  @default_options [mode: :manual, pause: 0]
+  @default_options %{mode: :manual, pause: 0, basic: false}
   @genders [:f, :m]
   @modes [:manual, :auto]
   @pause_range 0..10_000
@@ -27,7 +27,8 @@ defmodule Islands.Client.State do
     :player_id,
     :mode,
     :pause,
-    :move
+    :move,
+    :tally
   ]
   defstruct [
     :game_name,
@@ -53,11 +54,12 @@ defmodule Islands.Client.State do
 
   @spec new(String.t(), PlayerID.t(), String.t(), atom, Keyword.t()) :: t
   def new(game_name, player_id, player_name, gender, options \\ [])
+
+  def new(game_name, player_id, player_name, gender, options)
       when is_binary(game_name) and is_binary(player_name) and
              player_id in @player_ids and gender in @genders and
              is_list(options) do
-    options = Keyword.merge(@default_options, options)
-    [mode: mode, pause: pause] = options(options[:mode], options[:pause])
+    %{mode: mode, pause: pause, basic: basic?} = parse(options)
 
     %State{
       game_name: game_name,
@@ -66,15 +68,30 @@ defmodule Islands.Client.State do
       player_id: player_id,
       mode: mode,
       pause: pause,
-      move: []
+      move: [],
+      tally: if(basic?, do: nil, else: Engine.tally(game_name, player_id))
     }
   end
 
+  def new(_game_name, _player_id, _player_name, _gender, _options),
+    do: {:error, :invalid_client_state_args}
+
   ## Private functions
 
-  @spec options(atom, non_neg_integer) :: Keyword.t()
-  defp options(mode, pause) when mode in @modes and pause in @pause_range,
-    do: [mode: mode, pause: pause]
+  @spec parse(Keyword.t()) :: map
+  defp parse(options), do: parse(options, @default_options)
 
-  defp options(_mode, _pause), do: @default_options
+  @spec parse(Keyword.t(), map) :: map
+  defp parse([], options), do: options
+
+  defp parse([{:basic, basic?} | rest], options) when is_boolean(basic?),
+    do: parse(rest, %{options | basic: basic?})
+
+  defp parse([{:mode, mode} | rest], options) when mode in @modes,
+    do: parse(rest, %{options | mode: mode})
+
+  defp parse([{:pause, pause} | rest], options) when pause in @pause_range,
+    do: parse(rest, %{options | pause: pause})
+
+  defp parse([_bad_option | rest], options), do: parse(rest, options)
 end
