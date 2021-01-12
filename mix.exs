@@ -4,8 +4,8 @@ defmodule Islands.Client.State.MixProject do
   def project do
     [
       app: :islands_client_state,
-      version: "0.1.10",
-      elixir: "~> 1.7",
+      version: "0.1.11",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       name: "Islands Client State",
       source_url: source_url(),
@@ -28,7 +28,7 @@ defmodule Islands.Client.State.MixProject do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README*", "config/persist*.exs"],
+      files: ["lib", "mix.exs", "README*"],
       maintainers: ["Raymond Loranger"],
       licenses: ["MIT"],
       links: %{"GitHub" => source_url()}
@@ -46,16 +46,14 @@ defmodule Islands.Client.State.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mix_tasks,
-       github: "RaymondLoranger/mix_tasks", only: :dev, runtime: false},
-      {:persist_config, "~> 0.2", runtime: false},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:islands_engine, "~> 0.2"},
       {:islands_player, "~> 0.1"},
       {:islands_player_id, "~> 0.1"},
       {:islands_tally, "~> 0.1"},
-      {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
-      {:dialyxir, "~> 0.5", only: :dev, runtime: false}
+      {:mix_tasks,
+       github: "RaymondLoranger/mix_tasks", only: :dev, runtime: false}
     ]
   end
 end

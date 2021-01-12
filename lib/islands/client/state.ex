@@ -2,17 +2,14 @@
 # │ Inspired by the course "Elixir for Programmers" by Dave Thomas. │
 # └─────────────────────────────────────────────────────────────────┘
 defmodule Islands.Client.State do
-  use PersistConfig
-
-  @course_ref Application.get_env(@app, :course_ref)
-
   @moduledoc """
   Creates a client `state` struct for the _Game of Islands_.
-  \n##### #{@course_ref}
+
+  ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
 
   alias __MODULE__
-  alias Islands.{Engine, Player, PlayerID, Tally}
+  alias Islands.{Engine, Game, Player, PlayerID, Tally}
 
   @default_options %{mode: :manual, pause: 0, basic: false}
   @genders [:f, :m]
@@ -42,8 +39,8 @@ defmodule Islands.Client.State do
   ]
 
   @type t :: %State{
-          game_name: String.t(),
-          player_name: String.t(),
+          game_name: Game.name(),
+          player_name: Player.name(),
           gender: Player.gender(),
           player_id: PlayerID.t(),
           mode: :manual | :auto,
@@ -52,7 +49,7 @@ defmodule Islands.Client.State do
           tally: Tally.t() | nil
         }
 
-  @spec new(String.t(), PlayerID.t(), String.t(), atom, Keyword.t()) :: t
+  @spec new(Game.name(), PlayerID.t(), Player.name(), atom, Keyword.t()) :: t
   def new(game_name, player_id, player_name, gender, options \\ [])
 
   def new(game_name, player_id, player_name, gender, options)
