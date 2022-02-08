@@ -3,12 +3,13 @@
 # └─────────────────────────────────────────────────────────────────┘
 defmodule Islands.Client.State do
   @moduledoc """
-  Creates a client `state` struct for the _Game of Islands_.
+  Creates a client state struct for the _Game of Islands_.
 
   ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
 
   alias __MODULE__
+  alias Islands.Client.IslandType
   alias Islands.{Engine, Game, Player, PlayerID, Tally}
 
   @default_options %{mode: :manual, pause: 0}
@@ -38,6 +39,7 @@ defmodule Islands.Client.State do
     :tally
   ]
 
+  @typedoc "A client state struct for the Game of Islands"
   @type t :: %State{
           game_name: Game.name(),
           player_name: Player.name(),
@@ -45,10 +47,12 @@ defmodule Islands.Client.State do
           player_id: PlayerID.t(),
           mode: :manual | :auto,
           pause: 0..10_000,
-          move: [String.codepoint() | non_neg_integer | String.t()],
+          move: [IslandType.code() | non_neg_integer | String.t()],
           tally: Tally.t()
         }
-
+  @doc """
+  Creates a client state struct for the _Game of Islands_.
+  """
   @spec new(
           Game.name(),
           PlayerID.t(),
