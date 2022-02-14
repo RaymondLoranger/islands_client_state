@@ -5,6 +5,10 @@ defmodule Islands.Client.State do
   @moduledoc """
   Creates a client state struct for the _Game of Islands_.
 
+  The client state struct contains the fields `game_name`, `player_name`,
+  `gender`, `player_id`, `mode`, `pause`, `move` and `tally` representing the
+  characteristics of a client state in the _Game of Islands_.
+
   ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
 
