@@ -62,7 +62,7 @@ defmodule Islands.Client.State do
           PlayerID.t(),
           Player.name(),
           Player.gender(),
-          Keyword.t()
+          keyword
         ) :: t
   def new(game_name, player_id, player_name, gender, options \\ [])
 
@@ -89,10 +89,10 @@ defmodule Islands.Client.State do
 
   ## Private functions
 
-  @spec parse(Keyword.t()) :: map
+  @spec parse(keyword) :: map
   defp parse(options), do: parse(options, @default_options)
 
-  @spec parse(Keyword.t(), map) :: map
+  @spec parse(keyword, map) :: map
   defp parse([], options), do: options
 
   defp parse([{:mode, mode} | rest], options) when mode in @modes,
